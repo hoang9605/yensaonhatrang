@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Sản phẩm — Yến Sào Nha Trang{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-title">Sản phẩm</h1>
+    <p class="page-sub">Yến tinh chế, yến chưng sẵn và bộ quà tặng — chọn theo nhu cầu gia đình hoặc doanh nghiệp.</p>
+  </div>
+</section>
+
+<section class="section products-toolbar">
+  <div class="container toolbar-inner">
+    <!-- Form tìm kiếm: GET /products?q= -->
+    <form class="search-form" action="{{ url_for('products') }}" method="get" role="search">
+      <label for="q" class="visually-hidden">Tìm sản phẩm</label>
+      <input type="search" name="q" id="q" placeholder="Tìm theo tên hoặc mô tả…" value="{{ query or '' }}" autocomplete="off">
+      <button type="submit" class="btn btn-primary">Tìm</button>
+    </form>
+    {% if query %}
+      <p class="search-hint">Kết quả cho “<strong>{{ query }}</strong>” — <a href="{{ url_for('products') }}">Xóa bộ lọc</a></p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section product-list-section">
+  <div class="container">
+    {% if products %}
+      <ul class="product-grid">
+        {% for p in products %}
+          <li>
+            <article class="product-card">
+              <a href="{{ url_for('product_detail', product_id=p.id) }}" class="product-card-link">
+                <div class="product-card-image">
+                  <img src="{{ url_for('static', filename='images/' + p.image) }}" alt="{{ p.name }}" loading="lazy" width="400" height="280">
+                </div>
+                <div class="product-card-body">
+                  <h2 class="product-card-title">{{ p.name }}</h2>
+                  <p class="product-card-price">{{ p.price | vnd }}</p>
+                  <p class="product-card-desc">{{ p.description[:120] }}{% if p.description|length > 120 %}…{% endif %}</p>
+                  <span class="product-card-cta">Xem chi tiết</span>
+                </div>
+              </a>
+            </article>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty-state">Không có sản phẩm phù hợp. Thử từ khóa khác hoặc <a href="{{ url_for('products') }}">xem tất cả</a>.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

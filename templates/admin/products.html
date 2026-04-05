@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Sản phẩm{% endblock %}
+
+{% block admin_content %}
+<section class="admin-page-head admin-page-head--row">
+  <div>
+    <h1 class="admin-h1">Sản phẩm</h1>
+    <p class="admin-lead">Thêm, sửa, xóa sản phẩm (xóa chỉ khi chưa có trong đơn hàng).</p>
+  </div>
+  <a href="{{ url_for('admin_add_product') }}" class="btn btn-primary">+ Thêm sản phẩm</a>
+</section>
+
+<div class="admin-table-wrap">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tên</th>
+        <th>Giá</th>
+        <th>Ảnh</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in products %}
+        <tr>
+          <td>{{ p.id }}</td>
+          <td><a href="{{ url_for('product_detail', product_id=p.id) }}" target="_blank" rel="noopener">{{ p.name }}</a></td>
+          <td>{{ p.price | vnd }}</td>
+          <td class="admin-nowrap">{{ p.image }}</td>
+          <td class="admin-actions-cell">
+            <a href="{{ url_for('admin_edit_product', product_id=p.id) }}" class="btn btn-outline btn-sm">Sửa</a>
+            <form method="post" action="{{ url_for('admin_delete_product', product_id=p.id) }}" class="admin-inline-form" onsubmit="return confirm('Xóa sản phẩm này?');">
+              <button type="submit" class="btn btn-outline btn-sm admin-btn-danger">Xóa</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" class="admin-empty">Chưa có sản phẩm. <a href="{{ url_for('admin_add_product') }}">Thêm mới</a></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

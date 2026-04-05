@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — Yến Sào Nha Trang{% endblock %}
+
+{% block content %}
+<section class="section product-detail-section">
+  <div class="container product-detail-grid">
+    <div class="product-detail-media">
+      <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}" width="560" height="400">
+    </div>
+    <div class="product-detail-info">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="{{ url_for('products') }}">Sản phẩm</a>
+        <span class="sep">/</span>
+        <span>{{ product.name }}</span>
+      </nav>
+      <h1 class="product-detail-title">{{ product.name }}</h1>
+      <p class="product-detail-price">{{ product.price | vnd }}</p>
+      <div class="product-detail-desc">
+        <h2>Mô tả</h2>
+        <p>{{ product.description }}</p>
+      </div>
+      <div class="product-detail-actions product-detail-actions--stack">
+        <form class="add-cart-form" method="get" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+          <label for="qty">Số lượng</label>
+          <div class="add-cart-row">
+            <input type="number" id="qty" name="qty" value="1" min="1" max="99" class="qty-input">
+            <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+          </div>
+        </form>
+        <a href="{{ url_for('contact') }}" class="btn btn-outline">Liên hệ tư vấn</a>
+        <a href="{{ url_for('products') }}" class="btn btn-outline">← Quay lại danh sách</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

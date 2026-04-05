@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Giỏ hàng — Yến Sào Nha Trang{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-title">Giỏ hàng</h1>
+    <p class="page-sub">Kiểm tra sản phẩm và số lượng trước khi thanh toán.</p>
+  </div>
+</section>
+
+<section class="section cart-section">
+  <div class="container">
+    {% if cart_lines %}
+      <form method="post" action="{{ url_for('update_cart') }}" class="cart-form">
+        <div class="cart-table-wrap">
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Sản phẩm</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for line in cart_lines %}
+                <tr>
+                  <td class="cart-cell-product">
+                    <a href="{{ url_for('product_detail', product_id=line.product.id) }}" class="cart-product-link">
+                      <img src="{{ url_for('static', filename='images/' + line.product.image) }}" alt="" width="72" height="50" loading="lazy">
+                      <span>{{ line.product.name }}</span>
+                    </a>
+                  </td>
+                  <td>{{ line.product.price | vnd }}</td>
+                  <td>
+                    <label class="visually-hidden" for="qty_{{ line.product_id }}">Số lượng {{ line.product.name }}</label>
+                    <input class="cart-qty-input" type="number" name="qty_{{ line.product_id }}" id="qty_{{ line.product_id }}"
+                      min="0" max="999" value="{{ line.quantity }}">
+                  </td>
+                  <td class="cart-line-total">{{ line.line_total | vnd }}</td>
+                  <td>
+                    <a href="{{ url_for('remove_from_cart', product_id=line.product_id) }}" class="cart-remove">Xóa</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="cart-actions">
+          <button type="submit" class="btn btn-outline">Cập nhật giỏ</button>
+          <a href="{{ url_for('checkout') }}" class="btn btn-primary">Thanh toán</a>
+        </div>
+      </form>
+      <p class="cart-total-bar">Tạm tính: <strong>{{ total | vnd }}</strong></p>
+    {% else %}
+      <p class="empty-state">Giỏ hàng của bạn đang trống. <a href="{{ url_for('products') }}">Xem sản phẩm</a></p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

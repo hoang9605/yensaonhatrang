@@ -1,0 +1,56 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Đơn hàng{% endblock %}
+
+{% block admin_content %}
+<section class="admin-page-head">
+  <h1 class="admin-h1">Đơn hàng</h1>
+  <p class="admin-lead">Tìm theo mã đơn (YS…) hoặc xem toàn bộ.</p>
+</section>
+
+<form class="admin-order-search" method="get" action="{{ url_for('admin_orders') }}" role="search">
+  <label for="order-q" class="visually-hidden">Tìm mã đơn</label>
+  <input type="text" name="q" id="order-q" class="admin-order-search-input" placeholder="Nhập mã đơn…" value="{{ search_q or '' }}" autocomplete="off">
+  <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+  {% if search_q %}
+    <a href="{{ url_for('admin_orders') }}" class="btn btn-outline">Xóa bộ lọc</a>
+  {% endif %}
+</form>
+
+<div class="admin-order-list">
+  {% if search_q and not orders %}
+    <p class="admin-empty-block">Không tìm thấy đơn hàng.</p>
+  {% elif not search_q and not orders %}
+    <p class="admin-empty-block">Chưa có đơn hàng.</p>
+  {% endif %}
+  {% for o in orders %}
+    <article class="admin-order-card">
+      <div class="admin-order-card-main">
+        <p class="admin-order-code-line">
+          <strong>Mã đơn:</strong>
+          <span class="admin-order-code">{{ o.order_code or '—' }}</span>
+          {% if o.order_code %}
+            <button type="button" class="btn btn-outline btn-sm js-copy-order-code" data-code="{{ o.order_code }}">Copy</button>
+          {% endif %}
+        </p>
+        <p class="admin-order-customer"><strong>{{ o.full_name }}</strong></p>
+        <p class="admin-order-meta"><span class="admin-order-label">SĐT</span> {{ o.phone }}</p>
+        <p class="admin-order-meta"><span class="admin-order-label">Tổng</span> <strong>{{ o.total_price | vnd }}</strong></p>
+        <p class="admin-order-meta"><span class="admin-order-label">Ngày đặt</span> {{ o.created_at | datetime_vn }}</p>
+      </div>
+      <div class="admin-order-card-side">
+        <span class="admin-order-status admin-order-status--{{ o.status or 'pending' }}">
+          {% if (o.status or 'pending') == 'pending' %}Chờ xử lý
+          {% elif o.status == 'confirmed' %}Đã xác nhận
+          {% elif o.status == 'shipped' %}Đã giao
+          {% else %}{{ o.status }}{% endif %}
+        </span>
+        <a href="{{ url_for('admin_order_detail', order_id=o.id) }}" class="btn btn-primary btn-sm admin-order-btn">Xem chi tiết</a>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_order_copy.js') }}" defer></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Đăng nhập — Yến Sào Nha Trang{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-title">Đăng nhập</h1>
+    <p class="page-sub">Chào mừng bạn quay lại — mua sắm và theo dõi đơn hàng thuận tiện hơn.</p>
+  </div>
+</section>
+
+<section class="section auth-section">
+  <div class="container auth-wrap">
+    <form class="auth-card contact-form" method="post" action="{{ url_for('login') }}" novalidate>
+      {% if next_url %}
+        <input type="hidden" name="next" value="{{ next_url }}">
+      {% endif %}
+      <div class="form-group">
+        <label for="username">Tên đăng nhập <span class="req">*</span></label>
+        <input type="text" id="username" name="username" required autocomplete="username" placeholder="Tên đăng nhập">
+      </div>
+      <div class="form-group">
+        <label for="password">Mật khẩu <span class="req">*</span></label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+      <p class="auth-alt">Chưa có tài khoản? <a href="{{ url_for('register') }}">Đăng ký ngay</a></p>
+    </form>
+  </div>
+</section>
+{% endblock %}

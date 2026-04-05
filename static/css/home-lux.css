@@ -1,0 +1,516 @@
+/*
+ * Trang chủ — phong cách luxury / Apple-like
+ * Màu: #C9A14A, trắng, đen | Heading serif, body sans (kế thừa base)
+ */
+
+:root {
+  --lux-gold: #c9a14a;
+  --lux-gold-dark: #8a6f32;
+  --lux-black: #0d0d0d;
+  --lux-white: #ffffff;
+  --lux-gray: #6e6e6e;
+  --lux-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-lux {
+  --container-pad: clamp(1.25rem, 4vw, 2rem);
+}
+
+/* ─── Hero full viewport + parallax layer ─── */
+.lux-hero {
+  position: relative;
+  z-index: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.lux-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.lux-hero__parallax {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -12%;
+  height: 124%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.lux-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 13, 13, 0.45) 0%,
+    rgba(13, 13, 13, 0.35) 40%,
+    rgba(13, 13, 13, 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+.lux-hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: calc(var(--header-h) + 2rem) var(--container-pad) 3rem;
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.lux-hero__title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.75rem, 8vw, 4.25rem);
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: var(--lux-white);
+  margin: 0 0 1rem;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+}
+
+.lux-hero__subtitle {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0 0 2.25rem;
+  letter-spacing: 0.04em;
+}
+
+.lux-hero__cta {
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes lux-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lux-hero__anim {
+  animation: lux-hero-in 0.9s var(--lux-ease) both;
+}
+
+.lux-hero__anim--1 {
+  animation-delay: 0.08s;
+}
+.lux-hero__anim--2 {
+  animation-delay: 0.18s;
+}
+.lux-hero__anim--3 {
+  animation-delay: 0.28s;
+}
+
+/* ─── Section “đè” lên hero ─── */
+.lux-overlap {
+  position: relative;
+  z-index: 2;
+  margin-top: -14vh;
+  padding-top: clamp(3rem, 8vh, 5rem);
+  background: var(--lux-white);
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* ─── Story split ─── */
+.lux-story {
+  padding: clamp(3.5rem, 9vw, 6.5rem) 0;
+}
+
+.lux-story__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.lux-story--reverse .lux-story__inner {
+  direction: rtl;
+}
+
+.lux-story--reverse .lux-story__copy,
+.lux-story--reverse .lux-story__media {
+  direction: ltr;
+}
+
+.lux-story__media {
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f5f0e6;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+}
+
+.lux-story__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  min-height: 280px;
+}
+
+.lux-story__heading {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--lux-black);
+  margin: 0 0 1.25rem;
+  line-height: 1.15;
+}
+
+.lux-story__text {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--lux-gray);
+  margin: 0;
+  max-width: 28rem;
+}
+
+/* ─── Story full width + overlay ─── */
+.lux-story--wide {
+  position: relative;
+  min-height: min(58vh, 520px);
+  margin: clamp(2rem, 5vw, 4rem) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.lux-story-wide__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.02);
+}
+
+.lux-story-wide__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(13, 13, 13, 0.75) 0%,
+    rgba(13, 13, 13, 0.35) 50%,
+    rgba(13, 13, 13, 0.2) 100%
+  );
+}
+
+.lux-story-wide__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem var(--container-pad);
+}
+
+.lux-story-wide__heading {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  color: var(--lux-white);
+  margin: 0;
+  letter-spacing: 0.03em;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Featured products ─── */
+.lux-featured {
+  padding: clamp(3rem, 8vw, 5rem) 0 clamp(4rem, 10vw, 6rem);
+  background: linear-gradient(180deg, var(--lux-white) 0%, #fafafa 100%);
+}
+
+.lux-featured__head {
+  text-align: center;
+  max-width: 36rem;
+  margin: 0 auto 3rem;
+}
+
+.lux-featured__title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 2.65rem);
+  color: var(--lux-black);
+  margin: 0 0 0.75rem;
+}
+
+.lux-featured__lead {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--lux-gray);
+}
+
+.lux-featured__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.lux-card {
+  background: var(--lux-white);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(201, 161, 74, 0.2);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.45s var(--lux-ease), transform 0.45s var(--lux-ease);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.lux-card:hover {
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.lux-card__link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  flex: 1;
+}
+
+.lux-card__link:hover .lux-card__name {
+  color: var(--lux-gold-dark);
+}
+
+.lux-card__image-wrap {
+  overflow: hidden;
+  background: #f5f0e6;
+  aspect-ratio: 400 / 280;
+}
+
+.lux-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s var(--lux-ease);
+}
+
+.lux-card:hover .lux-card__image {
+  transform: scale(1.06);
+}
+
+.lux-card__body {
+  padding: 1.25rem 1.25rem 0.75rem;
+}
+
+.lux-card__name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+  line-height: 1.3;
+  color: var(--lux-black);
+  transition: color 0.25s ease;
+}
+
+.lux-card__price {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--lux-gold);
+  margin: 0;
+}
+
+.lux-card__form {
+  padding: 0 1.25rem 1.25rem;
+  margin-top: auto;
+}
+
+.lux-featured__empty {
+  text-align: center;
+  color: var(--lux-gray);
+  font-size: 1.05rem;
+}
+
+.lux-featured__foot {
+  text-align: center;
+  margin: 2.5rem 0 0;
+}
+
+.lux-link-all {
+  font-weight: 600;
+  color: var(--lux-black);
+  text-decoration: none;
+  border-bottom: 1px solid var(--lux-gold);
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+
+.lux-link-all:hover {
+  color: var(--lux-gold-dark);
+}
+
+/* ─── CTA band ─── */
+.lux-cta-band {
+  padding: clamp(3rem, 8vw, 4.5rem) 0;
+  background: var(--lux-black);
+  color: var(--lux-white);
+  text-align: center;
+}
+
+.lux-cta-band__inner {
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.lux-cta-band__title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.85rem, 3.5vw, 2.35rem);
+  margin: 0 0 0.75rem;
+}
+
+.lux-cta-band__text {
+  margin: 0 0 1.75rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.05rem;
+}
+
+/* ─── Buttons (home only) ─── */
+.lux-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  padding: 0.9rem 1.85rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.lux-btn--primary {
+  background: var(--lux-gold);
+  color: var(--lux-black);
+  border-color: var(--lux-gold);
+}
+
+.lux-btn--primary:hover {
+  background: #ddb55c;
+  border-color: #ddb55c;
+  color: var(--lux-black);
+}
+
+.lux-btn--outline {
+  background: transparent;
+  color: var(--lux-black);
+  border-color: rgba(201, 161, 74, 0.55);
+}
+
+.lux-btn--outline:hover {
+  background: rgba(201, 161, 74, 0.12);
+  border-color: var(--lux-gold);
+}
+
+.lux-btn--dark {
+  background: var(--lux-white);
+  color: var(--lux-black);
+  border-color: var(--lux-white);
+}
+
+.lux-btn--dark:hover {
+  background: var(--lux-gold);
+  border-color: var(--lux-gold);
+}
+
+.lux-btn--block {
+  width: 100%;
+}
+
+/* ─── Scroll reveal ─── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.85s var(--lux-ease), transform 0.85s var(--lux-ease);
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lux-hero__parallax {
+    will-change: auto;
+  }
+
+  .lux-hero__anim {
+    animation: none;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .lux-card,
+  .lux-card__image {
+    transition: none;
+  }
+
+  .lux-card:hover {
+    transform: none;
+  }
+
+  .lux-card:hover .lux-card__image {
+    transform: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .lux-featured__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .lux-overlap {
+    margin-top: -8vh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .lux-story__inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .lux-story--reverse .lux-story__inner {
+    direction: ltr;
+  }
+
+  .lux-featured__grid {
+    grid-template-columns: 1fr;
+    max-width: 22rem;
+    margin: 0 auto;
+  }
+}

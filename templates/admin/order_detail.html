@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Đơn {{ order.order_code or ('#' ~ order.id) }}{% endblock %}
+
+{% block admin_content %}
+<section class="admin-page-head">
+  <h1 class="admin-h1">Chi tiết đơn hàng #{{ order.order_code or order.id }}</h1>
+  <p class="admin-lead">
+    <a href="{{ url_for('admin_orders') }}">← Danh sách đơn</a>
+    {% if order.order_code %}
+      <span class="admin-order-code-inline">
+        <strong>Mã đơn:</strong> {{ order.order_code }}
+        <button type="button" class="btn btn-outline btn-sm js-copy-order-code" data-code="{{ order.order_code }}">Copy</button>
+      </span>
+    {% endif %}
+  </p>
+</section>
+
+<div class="admin-detail-grid admin-detail-grid--order">
+  <div class="admin-card admin-card--customer">
+    <h2 class="admin-h2">Thông tin khách</h2>
+    <dl class="admin-dl admin-dl--stack">
+      {% if order.order_code %}
+        <dt>Mã đơn</dt>
+        <dd><strong>{{ order.order_code }}</strong></dd>
+      {% endif %}
+      <dt>Họ tên</dt><dd>{{ order.full_name }}</dd>
+      <dt>Số điện thoại</dt><dd>{{ order.phone }}</dd>
+      <dt>Email</dt><dd>{{ order.email or "—" }}</dd>
+      <dt>Địa chỉ</dt><dd>{{ full_address or "—" }}</dd>
+      <dt>Tổng tiền</dt><dd><strong>{{ order.total_price | vnd }}</strong></dd>
+      <dt>Ngày đặt</dt><dd>{{ order.created_at | datetime_vn }}</dd>
+      <dt>Trạng thái hiện tại</dt>
+      <dd>
+        <span class="admin-order-status admin-order-status--{{ order.status or 'pending' }}">
+          {% if (order.status or 'pending') == 'pending' %}Chờ xử lý
+          {% elif order.status == 'confirmed' %}Đã xác nhận
+          {% elif order.status == 'shipped' %}Đã giao
+          {% else %}{{ order.status }}{% endif %}
+        </span>
+      </dd>
+    </dl>
+
+    <form method="post" action="{{ url_for('admin_order_detail', order_id=order.id) }}" class="admin-status-form">
+      <label for="status"><strong>Cập nhật trạng thái</strong></label>
+      <div class="admin-status-row">
+        <select name="status" id="status" class="admin-select">
+          {% for st in order_statuses %}
+            <option value="{{ st }}" {% if (order.status or 'pending') == st %}selected{% endif %}>
+              {% if st == 'pending' %}Chờ xử lý{% elif st == 'confirmed' %}Đã xác nhận{% elif st == 'shipped' %}Đã giao{% else %}{{ st }}{% endif %}
+            </option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="admin-card admin-card--items">
+    <h2 class="admin-h2">Sản phẩm</h2>
+    <ul class="admin-order-item-list">
+      {% for it in items %}
+        <li class="admin-order-item-card">
+          <p class="admin-order-item-name">{{ it.product_name }}</p>
+          <div class="admin-order-item-row">
+            <span>SL: {{ it.quantity }}</span>
+            <span>Đơn giá: {{ it.price | vnd }}</span>
+          </div>
+          <p class="admin-order-item-total">Thành tiền: <strong>{{ it.line_total | vnd }}</strong></p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_order_copy.js') }}" defer></script>
+{% endblock %}

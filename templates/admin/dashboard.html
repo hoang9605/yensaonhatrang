@@ -1,0 +1,29 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Tổng quan{% endblock %}
+
+{% block admin_content %}
+<section class="admin-page-head">
+  <h1 class="admin-h1">Dashboard</h1>
+  <p class="admin-lead">Tổng quan hệ thống đơn giản — chỉ tài khoản <strong>admin</strong> truy cập được.</p>
+</section>
+
+<div class="admin-stats">
+  <article class="admin-stat-card">
+    <span class="admin-stat-label">Tổng đơn hàng</span>
+    <span class="admin-stat-value">{{ total_orders }}</span>
+  </article>
+  <article class="admin-stat-card">
+    <span class="admin-stat-label">Đơn chờ xử lý</span>
+    <span class="admin-stat-value">{{ pending_orders }}</span>
+  </article>
+  <article class="admin-stat-card">
+    <span class="admin-stat-label">Sản phẩm</span>
+    <span class="admin-stat-value">{{ total_products }}</span>
+  </article>
+</div>
+
+<p class="admin-actions-inline">
+  <a href="{{ url_for('admin_orders') }}" class="btn btn-primary">Xem đơn hàng</a>
+  <a href="{{ url_for('admin_products') }}" class="btn btn-outline">Quản lý sản phẩm</a>
+</p>
+{% endblock %}

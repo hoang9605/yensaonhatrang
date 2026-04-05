@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Liên hệ — Yến Sào Nha Trang{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-title">Liên hệ</h1>
+    <p class="page-sub">Đặt hàng, hợp tác hoặc tư vấn sản phẩm — chúng tôi luôn sẵn sàng lắng nghe.</p>
+  </div>
+</section>
+
+<section class="section contact-section">
+  <div class="container contact-grid">
+    <div class="contact-info">
+      <h2 class="section-title section-title--left">Thông tin liên hệ</h2>
+
+      <div class="contact-venues">
+        <div class="contact-venue">
+          <h3 class="contact-venue-title">Cơ sở 1</h3>
+          <p class="contact-venue-address">12A – Ô 2BT4, BĐ Linh Đàm, Hoàng Liệt, Hoàng Mai, Hà Nội</p>
+        </div>
+        <div class="contact-venue">
+          <h3 class="contact-venue-title">Cơ sở 2</h3>
+          <p class="contact-venue-address">404/17 Lê Hồng Phong, Phước Long, Nha Trang, Khánh Hòa</p>
+        </div>
+      </div>
+
+      <p class="contact-phone-line">
+        <strong>Số điện thoại:</strong>
+        <a href="tel:+84969567805">0969 567 805</a>
+      </p>
+
+      <p class="contact-note contact-note--muted">Vui lòng điền thông tin, chúng tôi sẽ liên hệ lại sớm nhất.</p>
+    </div>
+
+    <div class="contact-form-wrap">
+      <form class="contact-form" method="post" action="{{ url_for('contact') }}" novalidate>
+        <div class="form-group">
+          <label for="name">Họ và tên <span class="req">*</span></label>
+          <input type="text" id="name" name="name" required autocomplete="name" placeholder="Nguyễn Văn A"
+            value="{{ form.get('name', '') if form else '' }}">
+        </div>
+        <div class="form-group">
+          <label for="email">Email <span class="req">*</span></label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="email@example.com"
+            value="{{ form.get('email', '') if form else '' }}">
+        </div>
+        <div class="form-group">
+          <label for="phone">Số điện thoại</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="09xx xxx xxx (tùy chọn)"
+            value="{{ form.get('phone', '') if form else '' }}">
+        </div>
+        <div class="form-group">
+          <label for="message">Nội dung <span class="req">*</span></label>
+          <textarea id="message" name="message" rows="4" required placeholder="Nhu cầu sản phẩm, số lượng, ghi chú…">{{ form.get('message', '') if form else '' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Gửi liên hệ</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

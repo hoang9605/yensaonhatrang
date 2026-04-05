@@ -1,0 +1,20 @@
+{# Layout chung khu vực admin — extends base site #}
+{% extends "base.html" %}
+{% block title %}{% block admin_title %}Quản trị{% endblock %} — Yến Sào Nha Trang{% endblock %}
+
+{% block content %}
+<div class="admin-layout container">
+  <aside class="admin-sidebar" aria-label="Menu quản trị">
+    <p class="admin-sidebar-title">Quản trị</p>
+    <nav class="admin-nav">
+      <a href="{{ url_for('admin_dashboard') }}" class="{% if request.endpoint == 'admin_dashboard' %}is-active{% endif %}">Tổng quan</a>
+      <a href="{{ url_for('admin_orders') }}" class="{% if request.endpoint in ('admin_orders', 'admin_order_detail') %}is-active{% endif %}">Đơn hàng</a>
+      <a href="{{ url_for('admin_products') }}" class="{% if request.endpoint in ('admin_products', 'admin_add_product', 'admin_edit_product') %}is-active{% endif %}">Sản phẩm</a>
+    </nav>
+    <p class="admin-sidebar-foot"><a href="{{ url_for('home') }}">← Về cửa hàng</a></p>
+  </aside>
+  <div class="admin-main">
+    {% block admin_content %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

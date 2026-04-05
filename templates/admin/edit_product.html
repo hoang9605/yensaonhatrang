@@ -1,0 +1,43 @@
+{% extends "admin/base.html" %}
+{% block admin_title %}Sửa sản phẩm{% endblock %}
+
+{% block admin_content %}
+<section class="admin-page-head">
+  <h1 class="admin-h1">Sửa sản phẩm #{{ product.id }}</h1>
+  <p class="admin-lead"><a href="{{ url_for('admin_products') }}">← Danh sách sản phẩm</a></p>
+</section>
+
+<div class="admin-form-card">
+  <form method="post" action="{{ url_for('admin_edit_product', product_id=product.id) }}" class="contact-form" enctype="multipart/form-data" data-product-upload>
+    <div class="form-group">
+      <label for="name">Tên sản phẩm <span class="req">*</span></label>
+      <input type="text" id="name" name="name" required value="{{ product.name }}">
+    </div>
+    <div class="form-group">
+      <label for="price">Giá (VNĐ) <span class="req">*</span></label>
+      <input type="text" id="price" name="price" required value="{{ product.price }}" inputmode="numeric">
+    </div>
+    <div class="form-group">
+      <label for="description">Mô tả</label>
+      <textarea id="description" name="description" rows="3">{{ product.description or '' }}</textarea>
+    </div>
+    <div class="form-group">
+      <span class="form-label-text">Ảnh sản phẩm</span>
+      <p class="form-hint admin-upload-hint">Kéo ảnh mới vào khung hoặc bấm để thay ảnh.</p>
+      <input type="file" name="image_file" id="image_file" accept="image/*" class="visually-hidden" tabindex="-1" aria-hidden="true">
+      <div class="upload-drop-zone" data-drop-zone role="button" tabindex="0" aria-label="Kéo ảnh vào đây hoặc click để chọn">
+        <span class="upload-drop-zone-text">Kéo ảnh vào đây hoặc click để chọn</span>
+      </div>
+      <div class="upload-preview has-image" data-preview>
+        <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="Ảnh hiện tại" class="upload-preview-img">
+      </div>
+      <input type="hidden" name="image" value="{{ product.image }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_product_upload.js') }}" defer></script>
+{% endblock %}

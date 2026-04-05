@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Trang chủ — Yến Sào Nha Trang{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home-lux.css') }}">
+{% endblock %}
+
+{% block content %}
+{% set hero_bg = url_for('static', filename='images/landing.png') %}
+{% set story_wide_bg = url_for('static', filename='images/yen-1.jpg') %}
+<div class="home-lux">
+  <section class="lux-hero" aria-label="Giới thiệu">
+    <div class="lux-hero__bg" aria-hidden="true">
+      <div
+        class="lux-hero__parallax"
+        data-lux-parallax
+        style="background-image: url('{{ hero_bg }}');"
+      ></div>
+    </div>
+    <div class="lux-hero__overlay" aria-hidden="true"></div>
+    <div class="lux-hero__content container">
+      <h1 class="lux-hero__title lux-hero__anim lux-hero__anim--1">Yến Sào Nha Trang</h1>
+      <p class="lux-hero__subtitle lux-hero__anim lux-hero__anim--2">Tinh hoa từ thiên nhiên Khánh Hòa</p>
+      <div class="lux-hero__cta lux-hero__anim lux-hero__anim--3">
+        <a href="{{ url_for('products') }}" class="lux-btn lux-btn--primary">Khám phá sản phẩm</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="lux-overlap">
+    <section class="lux-story lux-story--split" data-reveal>
+      <div class="container lux-story__inner">
+        <figure class="lux-story__media">
+          <img
+            src="{{ url_for('static', filename='images/yen 4.jpg') }}"
+            alt=""
+            width="560"
+            height="392"
+            loading="lazy"
+          >
+        </figure>
+        <div class="lux-story__copy">
+          <h2 class="lux-story__heading">100% yến tự nhiên</h2>
+          <p class="lux-story__text">
+            Tuyển chọn từ tổ yến thuần khiết, không pha tạp — giữ trọn hương vị thanh và giá trị dinh dưỡng
+            cho gia đình bạn.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lux-story lux-story--split lux-story--reverse" data-reveal>
+      <div class="container lux-story__inner">
+        <figure class="lux-story__media">
+          <img
+            src="{{ url_for('static', filename='images/yen-3.webp') }}"
+            alt=""
+            width="560"
+            height="392"
+            loading="lazy"
+          >
+        </figure>
+        <div class="lux-story__copy">
+          <h2 class="lux-story__heading">Khai thác từ đảo Khánh Hòa</h2>
+          <p class="lux-story__text">
+            Nguồn gốc rõ ràng từ vùng biển quen thuộc — nơi chim yến chọn làm tổ, kết tinh giữa trời và nước.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lux-story lux-story--wide" data-reveal>
+      <div
+        class="lux-story-wide__bg"
+        style="background-image: url('{{ story_wide_bg }}');"
+        aria-hidden="true"
+      ></div>
+      <div class="lux-story-wide__overlay" aria-hidden="true"></div>
+      <div class="lux-story-wide__content">
+        <h2 class="lux-story-wide__heading">Tinh hoa dinh dưỡng</h2>
+      </div>
+    </section>
+
+    <section class="lux-featured" id="san-pham-noi-bat">
+      <div class="container">
+        <header class="lux-featured__head" data-reveal>
+          <h2 class="lux-featured__title">Sản phẩm nổi bật</h2>
+          <p class="lux-featured__lead">Bốn lựa chọn được yêu thích nhất tại cửa hàng.</p>
+        </header>
+
+        {% if featured_products %}
+          <ul class="lux-featured__grid">
+            {% for p in featured_products %}
+              <li data-reveal>
+                <article class="lux-card">
+                  <a href="{{ url_for('product_detail', product_id=p.id) }}" class="lux-card__link">
+                    <div class="lux-card__image-wrap">
+                      <img
+                        class="lux-card__image"
+                        src="{{ url_for('static', filename='images/' + p.image) }}"
+                        alt="{{ p.name }}"
+                        width="400"
+                        height="280"
+                        loading="lazy"
+                      >
+                    </div>
+                    <div class="lux-card__body">
+                      <h3 class="lux-card__name">{{ p.name }}</h3>
+                      <p class="lux-card__price">{{ p.price | vnd }}</p>
+                    </div>
+                  </a>
+                  <form class="lux-card__form" method="post" action="{{ url_for('add_to_cart', product_id=p.id) }}">
+                    <button type="submit" class="lux-btn lux-btn--outline lux-btn--block">Thêm vào giỏ</button>
+                  </form>
+                </article>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="lux-featured__empty" data-reveal>
+            Chưa có sản phẩm. <a href="{{ url_for('products') }}">Xem cửa hàng</a>
+          </p>
+        {% endif %}
+
+        <p class="lux-featured__foot" data-reveal>
+          <a href="{{ url_for('products') }}" class="lux-link-all">Xem tất cả sản phẩm →</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="lux-cta-band" data-reveal>
+      <div class="container lux-cta-band__inner">
+        <h2 class="lux-cta-band__title">Đặt hàng &amp; tư vấn</h2>
+        <p class="lux-cta-band__text">Đội ngũ tư vấn sẵn sàng hỗ trợ bạn chọn sản phẩm phù hợp.</p>
+        <a href="{{ url_for('contact') }}" class="lux-btn lux-btn--dark">Liên hệ ngay</a>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/home-lux.js') }}" defer></script>
+{% endblock %}
